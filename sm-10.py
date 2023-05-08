@@ -1,17 +1,19 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from yahooquery import Ticker
 
 
-def sma(file,percentage):
+def sma(ticker,percentage):
 
-    df = pd.read_csv(file)
+    stock = Ticker(ticker)
+    df=stock.history(period="1y") #default is ytd, 1 day 
 
     capital = 1000
     positions = {"long":0 , "long_values":[] , "short":0, "short_values":[]}
     total_value = []
 
     #Looking at 10-day average. Buy when it dips to 80% of that
-    closing_prices = df["Close"]
+    closing_prices = df["close"]
 
     #Looping through price data to test 
     for i in range(10,len(closing_prices)-1):
@@ -66,7 +68,10 @@ def sma(file,percentage):
     plt.show(block=False)
         
 for i in range(1,8,1):
-    sma("file:///C:/Users/giand/Desktop/model_dev/testing/RR.L.csv", i/10)
+    sma("spy",i/100)
+
+
+
 
 plt.legend()
 plt.show()
