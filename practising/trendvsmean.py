@@ -42,7 +42,7 @@ def main(ticker,percentage,k):
 
     ##Set history period
     stock = Ticker(ticker)
-    df=stock.history(period="3y") #default is ytd, 1 day 
+    df=stock.history(period="5d", interval="2m") #default is ytd, 1 day 
 
     capital = 1000
     positions = {"long":0 , "long_values":[]}
@@ -129,7 +129,7 @@ def main(ticker,percentage,k):
     plt.show(block=False)
         
 
-main("NIO",1/10, 50)
+main("NIO",1/100, 50)
 
 
 
