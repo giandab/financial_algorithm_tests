@@ -34,8 +34,15 @@ def ratios_inverted(stock_list):
 
         stock = Ticker(i)
 
-        peg_ratios.append(1/stock.valuation_measures["PegRatio"][0])
-        pe_ratios.append(1/stock.valuation_measures["PeRatio"][0])
+        try:
+            peg_ratios.append(1/stock.valuation_measures["PegRatio"][0])
+        except:
+            peg_ratios.append(0)
+
+        try:
+            pe_ratios.append(1/stock.valuation_measures["PeRatio"][0])
+        except:
+            pe_ratios.append(0)
         
         debt = stock.balance_sheet()["TotalDebt"][0]
         equity = stock.balance_sheet()["StockholdersEquity"][0]
@@ -87,7 +94,7 @@ scores  = []
 for i in stocks:
 
     index = stocks.index(i)
-
+    print(index)
     score = pegs[index] + pes[index] + 0.1*ed[index] + trends[index]
 
     scores.append([i , score])
