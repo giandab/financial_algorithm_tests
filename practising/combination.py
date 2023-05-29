@@ -24,7 +24,7 @@ def symbols_from_market(industry, number_of_symbols):
 
     return stock_list
 
-def update_holdings(date):
+def update_holdings(date,industry):
     #Gets  ratios of products and saves 1/ratio for each in a list (so that higher is better)
 
     def ratios_inverted(stock_list,date):
@@ -39,8 +39,7 @@ def update_holdings(date):
 
             try:
                 peg_ratios.append(1/get_measure("PegRatio" , stock,date))
-            except Exception as e:
-                print(e)
+            except:
                 peg_ratios.append(0)
 
             try:
@@ -114,7 +113,10 @@ def update_holdings(date):
 
     # Getting score for each product
 
-    stocks = symbols_from_market("semiconductors",10)
+    #This can be changed to a different screener class and number of products to compare
+    stocks = symbols_from_market(industry,10)
+
+
     pegs,pes,ed = ratios_inverted(stocks,date)
     trends = current_trend(stocks,date)
 
@@ -123,8 +125,8 @@ def update_holdings(date):
 
         index = stocks.index(i)
         ##Testing##
-        print("stock: ", i , " peg: ", pegs[index], " pes: ", pes[index], " equity to debt: ",ed[index], " trend: " ,trends[index] )
-        score = pegs[index] + 10*pes[index] + 0.1*ed[index] + trends[index]
+        #print("stock: ", i , " peg: ", pegs[index], " pes: ", pes[index], " equity to debt: ",ed[index], " trend: " ,trends[index] )
+        score = pegs[index] + pes[index] + 0.1*ed[index] + trends[index]
 
         scores.append([i , score])
 
@@ -135,12 +137,19 @@ def update_holdings(date):
         return score[1]
 
     scores.sort(reverse = True ,  key = sorted)
-    print(scores)
+    print("Final scores: (Higher is better) for ", industry, " " ,scores, "/n")
+
+
+
 
 #testing time#
 time_1 = "2023/05/19"
 newtime = time.strptime(time_1, "%Y/%m/%d")
-update_holdings(newtime)
+
+industries = ["advertising_agencies","aerospace_defense","apparel_retail", "asset_management" , "banks_diversified", "biotechnology","building_materials", "computer_hardware", "restaurants", "solar" ]
+
+for i in industries:
+    update_holdings(newtime , i)
 
 
 
