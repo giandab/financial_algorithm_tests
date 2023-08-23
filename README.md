@@ -1,1 +1,1 @@
-A basic valuation model that assigns a weight to companies in various industries base on metrics such as P/E ratios, Debt to equity and current trend. This used the yahoofinance api and can loop over different industry sectors to return high and low valued members.
+A basic valuation model that assigns a weight to companies in various industries base on metrics such as P/E ratios, Debt to equity and current trend. This uses the yahoofinance api and can loop over different industry sectors to return high and low valued members.
